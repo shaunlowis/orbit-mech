@@ -10,12 +10,7 @@ https://rebound.readthedocs.io/en/latest/
 
 Note: all angles are in radians.
 
-We need to change our inclination and eccentricity, to reach the specified parking orbit.
-These are most easily done as two separate burns. The parking orbit will have the same elements
-as the launch orbit, outside of eccentricity = 0.
-
-Inclination change will be performed at apoapsis, where gamma = 0, thus delta v = 2vsin(delta i / 2)
-Circularisation will also be performed here.
+TODO: Update these plots to show the maneuvers calculated for task1.
 """
 
 # matplotlib settings to make nice report plots
