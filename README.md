@@ -15,3 +15,10 @@ source .venv/bin/activate
 # install required packages
 pip install -r requirements.txt
 ```
+
+## Other packages
+
+```
+# LaTeX
+sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+```
