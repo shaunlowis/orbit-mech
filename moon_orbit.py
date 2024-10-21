@@ -195,6 +195,8 @@ def main():
         savename="plots/task1/moon_sat_orbit.png",
     )
 
+    sim.cite()
+
 
 if __name__ == main():
     main()

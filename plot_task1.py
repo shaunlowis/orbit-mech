@@ -17,6 +17,8 @@ TODO: Update these plots to show the maneuvers calculated for task1.
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
+from matplotlib.patches import Circle
+
 plt.rcParams["figure.dpi"] = 250
 mpl.rc("axes", labelsize=10, titlesize=16, linewidth=0.2)
 mpl.rc("legend", fontsize=10)
@@ -76,17 +78,24 @@ def earth_sat_init(sim_obj: rebound.Simulation):
     sim_obj : rebound.Simulation
         The simulation object, a new one should be created unless specified otherwise.
     """
-    sim_obj.add("Earth")
+    # use NAIF ID 399 = EARTH
+    sim_obj.add("399")
+
+    print("Adding Earth")
+    sim_obj.status()
+
     sim_obj.add(
         primary=sim_obj.particles[0],  # specify the Earth is the primary
         # a=(5137 * 10**3) / m_per_AU,  # semi-major axis [au]
-        a=5137 * 10**3,  # semi-major axis [m]
+        a=5137 * 1000,  # semi-major axis [m]
         e=0.3,  # eccentricity
         inc=np.radians(39),  # inclination [rad]
         Omega=np.radians(90),  # longitude of ascending node [rad]
         omega=np.radians(270),  # argument of pericenter [rad]
         f=np.radians(160),  # true anomaly [rad]
     )
+
+    sim_obj.status()
 
 
 def earth_sat_inc_burn(sim_obj: rebound.Simulation):
@@ -165,8 +174,25 @@ def plot_rebound_sim(sim_obj: rebound.Simulation, title: str = "", savename: str
         color=True,
         show_primary=True,
     )
+
+    circle_coords = (sim_obj.particles[0].x, sim_obj.particles[0].y)
+    earth_radius = Circle(
+        circle_coords,
+        radius=6378 * 1000,
+        facecolor="blue",
+        # edgecolor=(0, 0.8, 0.8),
+        linewidth=3,
+        alpha=0.5,
+    )
+
+    op.ax_main.add_patch(earth_radius)
+
     op.fig.suptitle(title)
-    op.fig.savefig(savename)
+    plt.show()
+    # op.fig.savefig(savename)
+
+    # plot Earth radius, assuming units are
+    # print(f"sim_obj.particles[0].x: {sim_obj.particles[0].x}")
 
 
 def init_sim_obj() -> rebound.Simulation:
@@ -181,19 +207,22 @@ def init_sim_obj() -> rebound.Simulation:
     And so on.''"""
     sim = rebound.Simulation()
     sim.G = 6.6743e-11  # m^3 / kg s^2
-    sim.units = ("m", "s", "kg")
+    sim.units = ("km", "s", "kg")
+
+    sim.collision = "direct"
+    sim.collision_resolve = "halt"
 
     return sim
 
 
 def main():
-    sim = init_sim_obj()
-    earth_moon_sat_init(sim)
-    plot_rebound_sim(
-        sim,
-        title="Earth-Moon-satellite system\n before any impulsive maneuvers.\n[barycentric coordinates]",
-        savename="plots/task1/initial_earth_moon_sat_orbit.png",
-    )
+    # sim = init_sim_obj()
+    # earth_moon_sat_init(sim)
+    # plot_rebound_sim(
+    #     sim,
+    #     title="Earth-Moon-satellite system\n before any impulsive maneuvers.\n[barycentric coordinates]",
+    #     savename="plots/task1/initial_earth_moon_sat_orbit.png",
+    # )
 
     sim = init_sim_obj()
     earth_sat_init(sim)
@@ -203,21 +232,21 @@ def main():
         savename="plots/task1/initial_earth_sat_orbit.png",
     )
 
-    sim = init_sim_obj()
-    earth_sat_inc_burn(sim)
-    plot_rebound_sim(
-        sim,
-        title="Earth-satellite system\n after inclination change burn.\n[barycentric coordinates]",
-        savename="plots/task1/earth_sat_inc_burn.png",
-    )
+    # sim = init_sim_obj()
+    # earth_sat_inc_burn(sim)
+    # plot_rebound_sim(
+    #     sim,
+    #     title="Earth-satellite system\n after inclination change burn.\n[barycentric coordinates]",
+    #     savename="plots/task1/earth_sat_inc_burn.png",
+    # )
 
-    sim = init_sim_obj()
-    earth_sat_inc_circ_burn(sim)
-    plot_rebound_sim(
-        sim,
-        title="Earth-satellite system\n in circular parking orbit.\n[barycentric coordinates]",
-        savename="plots/task1/earth_sat_parking.png",
-    )
+    # sim = init_sim_obj()
+    # earth_sat_inc_circ_burn(sim)
+    # plot_rebound_sim(
+    #     sim,
+    #     title="Earth-satellite system\n in circular parking orbit.\n[barycentric coordinates]",
+    #     savename="plots/task1/earth_sat_parking.png",
+    # )
 
 
 if __name__ == main():
