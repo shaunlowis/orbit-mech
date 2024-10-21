@@ -1,33 +1,16 @@
+# Basic polar coordinates plot. Will move to cartesian as polar sucks.
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-
-plt.rcParams["figure.dpi"] = 250
-mpl.rc("axes", labelsize=10, titlesize=16, linewidth=0.2)
-mpl.rc("legend", fontsize=10)
-mpl.rc("xtick", labelsize=12)
-mpl.rc("xtick.major", size=2, width=0.5)
-mpl.rc("xtick.minor", size=1, width=0.25, visible=True)
-mpl.rc("ytick", labelsize=12)
-mpl.rc("ytick.major", size=2, width=0.5)
-mpl.rc("ytick.minor", size=1, width=0.25, visible=True)
-
-# Font
-plt.rc("font", family="serif")
-plt.rc("text", usetex=True)
-plt.rc("font", **{"serif": ["Times New Roman"]})
-
-cos = np.cos
-pi = np.pi
+import matplotlib_rc
 
 
 def calc_r(a, e, theta):
-    return (a * (1 - e**2)) / (1 + e * cos(theta))
+    return (a * (1 - e**2)) / (1 + e * np.cos(theta))
 
 
 a_sat = 5137
 e_sat = 0.3
-theta = np.linspace(0, 2 * pi, 360)
+theta = np.linspace(0, 2 * np.pi, 360)
 r_sat = calc_r(a_sat, e_sat, theta)
 
 a_earth = 6378
