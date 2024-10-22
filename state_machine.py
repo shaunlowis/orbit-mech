@@ -5,28 +5,20 @@ import matplotlib.pyplot as plt
 import matplotlib_rc
 
 
-def state_machine(e: dict, mean_anomalies: np.ndarray) -> None:
+def state_machine(e: float, mean_anomalies: np.ndarray) -> None:
     """
-    __init__ Solve Kepler's equation for the given mean anomaly
-    range and update the inputted Keplerian elements.
+    __init__ Solve Kepler's equation
+    for the given mean anomaly
+    range and update the inputted
+    Keplerian elements.
 
     Parameters
     ----------
-    oe_t0 : dict
-        Classical orbital elements. Below elements:
-        a = 8371[km], e = 0, i = 28.58◦, Ω = 90◦, ω = 0◦ , θ = 180◦
-        Represented as:
-        oe_t0 = {
-                "a": 8371,
-                "e": 0,
-                "i": 28.58,
-                "Omega": 90,
-                "omega": 0,
-                "true_anom": 180
-                }
+    oe_t0 : eccentricity
 
-    mean_anomalies : list
-        The range of mean anomalies to use as inputs to the solver.
+    mean_anomalies : np.ndarray
+        The range of mean anomalies
+        to use as inputs to the solver.
     """
     eccentricity = e
 
